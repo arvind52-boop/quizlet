@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizzles</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Add your custom styles here */
+        .quiz-question {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: none; /* Hide all questions initially */
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin-bottom: 5px;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #f0f0f0;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .answered {
+            background-color: lightgreen;
+        }
+        .unanswered {
+            background-color: #f0f0f0;
+        }
+        .submit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-body">
+        <div class="test-detail-container">
+            <div class="test-nav">
+                <div class="web-logo">
+                    <div class="name">Quizzles</div>
+                </div>
+                <div class="test-name">Loading test name...</div>
+                <div class="test-id">
+                    <div class="name">
+                        <span>Test ID:</span>
+                        <span>Loading test ID...</span>
+                    </div>
+                </div>
+            </div>
+            <div class="test-quiz-container">
+                <!-- Questions will be loaded here -->
+            </div>
+            <div class="quiz-question-action">
+                <div class="test-buttons review-button">Mark for review</div>
+                <div class="test-buttons visitlater-button">Visit later</div>
+                <div class="test-buttons skipq-button" onclick="skipQuestion()">Skip</div>
+                <div class="test-buttons save-button" onclick="saveAnswer()">Save</div>
+            </div>
+        </div>
+        <div class="test-action-container">
+            <div class="remain-timer">
+                <div class="time-remain">
+                    <span id="timer">00:00:00</span>
+                </div>
+            </div>
+            <div class="question-markers">
+                <div class="question-marker-logo">
+                    <span class="una-question">00</span>
+                    <span>Not visited</span>
+                </div>
+                <div class="question-marker-logo">
+                    <span class="completed-question">00</span>
+                    <span>Answered</span>
+                </div>
+                <div class="question-marker-logo">
+                    <span class="na-question">00</span>
+                    <span>Skipped</span>
+                </div>
+                <div class="question-marker-logo">
+                    <span class="mr-question">00</span>
+                    <span>Review visit</span>
+                </div>
+                <div class="question-marker-logo">
+                    <span class="ra-question">00</span>
+                    <span>Late visit</span>
+                </div>
+            </div>
+            <div class="test-question-container">
+                <!-- Question numbers will be loaded here -->
+            </div>
+            <div class="test-submit">
+                <button class="submit-button" onclick="submitQuiz()">Submit</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

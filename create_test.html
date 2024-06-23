@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Create Test - Quizles</title>
+</head>
+<body>
+    <div class="create-test-container">
+        <h1>Create a New Test</h1>
+        <form action="create_test.php" method="post" id="createTestForm">
+            <label for="testName">Test Name:</label>
+            <input type="text" id="testName" name="testName" required>
+            <label for="testId">Test ID:</label>
+        <input type="text" id="testId" name="testId" required><br><br>
+            
+            <label for="numQuestions">Number of Questions:</label>
+            <input type="number" id="numQuestions" name="numQuestions" min="1" required>
+            <button type="button" onclick="generateQuestions()">Generate Questions</button>
+            
+            <div id="questionsContainer"></div>
+
+            <button type="submit">Submit Test</button>
+        </form>
+    </div>
+
+    <script>
+        function generateQuestions() {
+            const numQuestions = document.getElementById('numQuestions').value;
+            const questionsContainer = document.getElementById('questionsContainer');
+            questionsContainer.innerHTML = '';
+
+            for (let i = 0; i < numQuestions; i++) {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+
+                questionDiv.innerHTML = `
+                    <label>Question ${i + 1}:</label>
+                    <input type="text" name="questions[${i}][question]" required>
+                    
+                    <label>Option A:</label>
+                    <input type="text" name="questions[${i}][options][]" required>
+                    
+                    <label>Option B:</label>
+                    <input type="text" name="questions[${i}][options][]" required>
+                    
+                    <label>Option C:</label>
+                    <input type="text" name="questions[${i}][options][]" required>
+                    
+                    <label>Option D:</label>
+                    <input type="text" name="questions[${i}][options][]" required>
+                    
+                    <label>Correct Option (A, B, C, or D):</label>
+                    <input type="text" name="questions[${i}][correct]" pattern="[A-D]" required>
+                `;
+
+                questionsContainer.appendChild(questionDiv);
+            }
+        }
+    </script>
+</body>
+</html>

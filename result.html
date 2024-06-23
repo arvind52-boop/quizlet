@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h1, p {
+            text-align: center;
+        }
+        .result {
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-top: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .question-text {
+            font-weight: bold;
+        }
+        .option {
+            margin-left: 20px;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+        .incorrect {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz Results</h1>
+        <div class="result">
+            <p>Test ID: <span id="testId"></span></p>
+            <p>Your Score: <span id="score"></span> out of <span id="total"></span></p>
+            <p>Percentage: <span id="percentage"></span>%</p>
+        </div>
+        <div id="questions"></div>
+    </div>
+
+    <script>
+        // Fetch parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const testId = urlParams.get('testId');
+        const score = urlParams.get('score');
+        const total = urlParams.get('total');
+        const percentage = urlParams.get('percentage');
+
+        // Set values in the HTML
+        document.getElementById('testId').textContent = testId;
+        document.getElementById('score').textContent = score;
+        document.getElementById('total').textContent = total;
+        document.getElementById('percentage').textContent = percentage;
+
+        // Fetch detailed results from the server
+        fetch(`submit_answers.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                testId: testId,
+                answers: {}
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                displayQuestions(data.results);
+            } else {
+                alert('Error loading results: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching detailed results:', error);
+        });
+
+        function displayQuestions(questions) {
+            const questionsContainer = document.getElementById('questions');
+            for (const [questionId, details] of Object.entries(questions)) {
+                const questionElement = document.createElement('div');
+                questionElement.classList.add('question');
+
+                const questionText = document.createElement('div');
+                questionText.classList.add('question-text');
+                questionText.textContent = details.question_text;
+
+                const optionsContainer = document.createElement('div');
+
+                details.options.forEach(option => {
+                    const optionElement = document.createElement('div');
+                    optionElement.classList.add('option');
+
+                    optionElement.textContent = option.option_text;
+
+                    // Highlight correct and incorrect options
+                    if (option.option_id === details.correct_option) {
+                        optionElement.classList.add('correct');
+                    }
+                    if (option.option_id === details.selected_option && option.option_id !== details.correct_option) {
+                        optionElement.classList.add('incorrect');
+                    }
+
+                    optionsContainer.appendChild(optionElement);
+                });
+
+                questionElement.appendChild(questionText);
+                questionElement.appendChild(optionsContainer);
+                questionsContainer.appendChild(questionElement);
+            }
+        }
+    </script>
+</body>
+</html>

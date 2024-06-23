@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Quizles - Access Test</title>
+</head>
+<body>
+    <div class="access-form-container">
+        <h1>Welcome to Quizles</h1>
+        <form id="accessTestForm">
+            <label for="testId">Enter Test ID:</label>
+            <input type="text" id="testId" name="testId" required>
+            <button type="submit">Access Test</button>
+        </form>
+    </div>
+
+    <script>
+        // Handle the form submission
+        document.getElementById('accessTestForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the test ID from the input
+            const testId = document.getElementById('testId').value.trim();
+
+            if (testId) {
+                // Redirect to the quiz page with the test ID as a query parameter
+                window.location.href = `quiz.html?testId=${testId}`;
+            }
+        });
+    </script>
+</body>
+</html>
